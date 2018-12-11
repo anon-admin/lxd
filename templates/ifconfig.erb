@@ -1,0 +1,6 @@
+#!/bin/bash
+<% if @interfaces != [] -%>
+<% @interfaces.flatten.each do |interface| -%>
+ifconfig <%= interface['pair'] %> <%= interface['ipv4'] %> promisc up 
+<% end -%>
+<% end -%>

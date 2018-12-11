@@ -1,0 +1,4 @@
+lxc.utsname = <%= @lxc_service_name %>
+lxc.tty = 2
+lxc.rootfs = /dev/<%= @vgname %>/<%= @lxc_service_name %>
+lxc.mount = <%= @lxc_dir %>/fstab.<%= @service_name %>

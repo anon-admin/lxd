@@ -1,0 +1,25 @@
+lxc.utsname = <%= @lxc_service_name %>
+lxc.arch = armhf
+lxc.autodev = 1
+lxc.kmsg = 0
+lxc.tty = 2
+lxc.rootfs = /dev/<%= @vgname %>/<%= @lxc_service_name %>
+lxc.mount = <%= @lxc_dir %>/fstab.<%= @service_name %>
+lxc.mount.auto = proc:rw sys cgroup:mixed
+<% if @interfaces != [] -%>
+<% @interfaces.flatten.each do |interface| -%>
+lxc.network.type = <%= interface['type'] %>
+lxc.network.flags = up
+lxc.network.link = <%= interface['link'] %>
+lxc.network.name = <%= interface['iname'] %>
+lxc.network.ipv4 = <%= interface['ipv4'] %>
+lxc.network.veth.pair = <%= interface['pair'] %>
+<% if interface.has_key?('gateway') -%>
+lxc.network.ipv4.gateway = <%= interface['gateway'] %>
+<% end -%>
+<% end -%>
+<% else -%>
+lxc.network.type = empty
+<% end -%>
+lxc.start.auto=1
+lxc.group=onboot
